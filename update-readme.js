@@ -151,6 +151,146 @@ function fmtDate(iso) {
   try { return new Date(iso).toISOString().slice(0,10); } catch { return iso; }
 }
 
+function usageBar(pct) {
+  const blocks = 10;
+  let filled = pct > 0 ? Math.round((pct / 100) * blocks) : 0;
+  filled = Math.max(0, Math.min(blocks, filled));
+  if (pct > 0 && filled === 0) filled = 1;
+  const empty = blocks - filled;
+  const bar = `${"█".repeat(filled)}${"░".repeat(empty)}`;
+  return `\`${bar}\` ${pct.toFixed(0)}%`;
+}
+
+function buildLanguageSection(repos) {
+  const stats = aggregateLanguages(repos);
+  if (!stats.items.length) return "_Belum ada bahasa publik yang bisa ditampilkan._";
+
+  const rows = stats.items.slice(0, 8).map((item, idx) => {
+    const pct = stats.total ? (item.count / stats.total) * 100 : 0;
+    return `| #${idx + 1} | ${item.name} | ${item.count} repos | ${usageBar(pct)} |`;
+  });
+
+  return [
+    "",
+    `> Berdasarkan ${stats.total} repositori publik bertanda bahasa`,
+    "",
+    "| Rank | Bahasa | Frekuensi | Intensitas |",
+    "|---|---|---|---|",
+    ...rows,
+    "",
+    "_Diurutkan dari yang paling sering dikerjakan._",
+    ""
+  ].join("\n");
+}
+
+function buildFrameworkSection(repos, topicsMap) {
+  const stats = aggregateFrameworks(repos, topicsMap);
+  if (!stats.items.length) return "_Belum ada framework yang terdeteksi dari GitHub Topics._";
+
+  const rows = stats.items.slice(0, 8).map((item, idx) => {
+    const pct = stats.totalHits ? (item.count / stats.totalHits) * 100 : 0;
+    return `| #${idx + 1} | ${item.name} | ${item.count} repos | ${usageBar(pct)} |`;
+  });
+
+  return [
+    "",
+    `> ${stats.repoHits} repos menyebut framework (${stats.totalHits} total tags)`,
+    "",
+    "| Rank | Framework / Library | Frekuensi | Intensitas |",
+    "|---|---|---|---|",
+    ...rows,
+    "",
+    "_Data diambil otomatis dari GitHub Topics & tags._",
+    ""
+  ].join("\n");
+}
+
+async function fetchRepoTopics(owner, repos) {
+  const topics = {};
+  if (!repos.length) return topics;
+
+  const headers = {
+    Accept: "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28"
+  };
+  if (process.env.GITHUB_TOKEN) {
+    headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  }
+
+  for (const repo of repos) {
+    const url = `https://api.github.com/repos/${owner}/${repo.name}/topics`;
+    try {
+      const res = await fetch(url, { headers });
+      if (!res.ok) {
+        if (res.status === 403) {
+          console.warn("Lewati pengambilan GitHub Topics (butuh token untuk rate limit lebih tinggi).");
+          return {};
+        }
+        topics[repo.name] = [];
+        continue;
+      }
+      const data = await res.json();
+      topics[repo.name] = data.names || [];
+    } catch {
+      topics[repo.name] = [];
+    }
+  }
+  return topics;
+}
+
+function aggregateLanguages(repos) {
+  const counts = {};
+  for (const repo of repos) {
+    const lang = prettyLanguage(repo.language);
+    if (!lang) continue;
+    counts[lang] = (counts[lang] || 0) + 1;
+  }
+  const items = Object.entries(counts)
+    .map(([name, count]) => ({ name, count }))
+    .sort((a,b) => b.count - a.count);
+  const total = items.reduce((sum, item) => sum + item.count, 0);
+  return { items, total };
+}
+
+function aggregateFrameworks(repos, topicsMap = {}) {
+  const counts = {};
+  let repoHits = 0;
+
+  for (const repo of repos) {
+    const topics = topicsMap[repo.name] || [];
+    const frameworks = new Set();
+    topics.forEach(topic => {
+      const name = normalizeFrameworkTopic(topic);
+      if (name) frameworks.add(name);
+    });
+
+    if (frameworks.size > 0) repoHits += 1;
+    frameworks.forEach(name => {
+      counts[name] = (counts[name] || 0) + 1;
+    });
+  }
+
+  const items = Object.entries(counts)
+    .map(([name, count]) => ({ name, count }))
+    .sort((a,b) => b.count - a.count);
+  const totalHits = items.reduce((sum, item) => sum + item.count, 0);
+  return { items, totalHits, repoHits };
+}
+
+function prettyLanguage(lang) {
+  if (!lang) return "";
+  const trimmed = String(lang).trim();
+  if (!trimmed) return "";
+  const lower = trimmed.toLowerCase();
+  return LANGUAGE_ALIASES[lower] ||
+    LANGUAGE_ALIASES[lower.replace(/\s+/g, "")] ||
+    trimmed;
+}
+
+function normalizeFrameworkTopic(topic) {
+  const key = (topic || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  return FRAMEWORK_ALIASES[key] || null;
+}
 function toMarkdownTable(repos) {
   if (repos.length === 0) return "_No public repositories found._";
 
@@ -189,12 +329,20 @@ function injectSection(readme, startMarker, endMarker, newBlock) {
 
 async function main() {
   const repos = await fetchAllRepos();
-  const picked = pickRepos(repos);
-  const block = toMarkdownTable(picked);
+  const cleaned = filterRepos(repos);
+  const picked = pickRepos(cleaned);
+  const topics = await fetchRepoTopics(USERNAME, cleaned);
+
+  const projectBlock = toMarkdownTable(picked);
+  const languageBlock = buildLanguageSection(cleaned);
+  const frameworkBlock = buildFrameworkSection(cleaned, topics);
 
   const path = "README.md";
   const oldMd = fs.readFileSync(path, "utf8");
-  const newMd = injectIntoReadme(oldMd, block);
+
+  let newMd = injectSection(oldMd, PROJECT_SECTION_START, PROJECT_SECTION_END, projectBlock);
+  newMd = injectSection(newMd, LANG_SECTION_START, LANG_SECTION_END, languageBlock);
+  newMd = injectSection(newMd, FRAME_SECTION_START, FRAME_SECTION_END, frameworkBlock);
 
   if (newMd.trim() !== oldMd.trim()) {
     fs.writeFileSync(path, newMd);
@@ -208,3 +356,12 @@ main().catch(e => {
   console.error(e);
   process.exit(1);
 });
+
+function normalizeFrameworkAliasMap(entries) {
+  const normalized = {};
+  for (const [key, value] of Object.entries(entries)) {
+    const clean = key.toLowerCase().replace(/[^a-z0-9]/g, "");
+    normalized[clean] = value;
+  }
+  return normalized;
+}
