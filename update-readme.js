@@ -19,7 +19,7 @@ const EXCLUDE = (process.env.EXCLUDE_REPOS || "")
 // Pilihan strategi sorting: stars | updated | pushed
 const STRATEGY = process.env.SORT_STRATEGY || "stars"; 
 // Jumlah repo yang ditampilkan (set LIMIT<=0 untuk menampilkan semuanya)
-const LIMIT = process.env.LIMIT !== undefined ? Number(process.env.LIMIT) : 8;
+const LIMIT = process.env.LIMIT !== undefined ? Number(process.env.LIMIT) : 20;
 
 const LANGUAGE_ALIASES = {
   js: "JavaScript",
