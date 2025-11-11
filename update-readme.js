@@ -1,7 +1,8 @@
 // Node 18+ has global fetch. No deps needed.
 const fs = require("fs");
+const { execSync } = require("child_process");
 
-const USERNAME = process.env.GH_USERNAME || "YOUR_USERNAME"; // ganti nanti di workflow
+const USERNAME = detectUsername();
 const SECTION_START = "<!--PROJECTS:START-->";
 const SECTION_END   = "<!--PROJECTS:END-->";
 
@@ -15,6 +16,28 @@ const EXCLUDE = (process.env.EXCLUDE_REPOS || "")
 const STRATEGY = process.env.SORT_STRATEGY || "stars"; 
 // Jumlah repo yang ditampilkan
 const LIMIT = Number(process.env.LIMIT || 8);
+
+function detectUsername() {
+  const fromEnv =
+    process.env.GH_USERNAME ||
+    process.env.GITHUB_ACTOR ||
+    (process.env.GITHUB_REPOSITORY || "").split("/")[0];
+
+  const cleaned = (fromEnv || "").trim();
+  if (cleaned && cleaned !== "YOUR_USERNAME") return cleaned;
+
+  try {
+    const remote = execSync("git config --get remote.origin.url", { encoding: "utf8" }).trim();
+    const match = remote.match(/github\.com[:/](?<owner>[^/]+)\/.+$/i);
+    if (match?.groups?.owner) return match.groups.owner;
+  } catch {
+    // ignore; fallback to throwing below
+  }
+
+  throw new Error(
+    "Tidak bisa menentukan GH username. Set env GH_USERNAME atau pastikan remote origin mengarah ke GitHub."
+  );
+}
 
 async function fetchAllRepos() {
   // Ambil repo milik user (owner), 100 cukup untuk kebanyakan
