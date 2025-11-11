@@ -1,4 +1,4 @@
-## 🔥 My Projects (Auto Updated)
+## 🔥 My Projects
 <!--PROJECTS:START-->
 Loading projects...
 <!--PROJECTS:END-->
