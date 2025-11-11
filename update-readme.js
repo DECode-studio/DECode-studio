@@ -18,8 +18,8 @@ const EXCLUDE = (process.env.EXCLUDE_REPOS || "")
 
 // Pilihan strategi sorting: stars | updated | pushed
 const STRATEGY = process.env.SORT_STRATEGY || "stars"; 
-// Jumlah repo yang ditampilkan
-const LIMIT = Number(process.env.LIMIT || 8);
+// Jumlah repo yang ditampilkan (set LIMIT<=0 untuk menampilkan semuanya)
+const LIMIT = process.env.LIMIT !== undefined ? Number(process.env.LIMIT) : 8;
 
 const LANGUAGE_ALIASES = {
   js: "JavaScript",
@@ -144,7 +144,8 @@ function pickRepos(cleaned) {
     data.sort((a,b) => new Date(b.pushed_at) - new Date(a.pushed_at));
   }
 
-  return data.slice(0, LIMIT);
+  const sliceCount = !Number.isFinite(LIMIT) || LIMIT <= 0 ? data.length : LIMIT;
+  return data.slice(0, sliceCount);
 }
 
 function fmtDate(iso) {

@@ -1,4 +1,5 @@
 ## 🔥 My Projects
+> Set `LIMIT=0` saat menjalankan `node update-readme.js` kalau ingin menampilkan semua repositori publik (maks 100 item dari GitHub API).
 <!--PROJECTS:START-->
 Loading projects...
 <!--PROJECTS:END-->
