@@ -3,8 +3,12 @@ const fs = require("fs");
 const { execSync } = require("child_process");
 
 const USERNAME = detectUsername();
-const SECTION_START = "<!--PROJECTS:START-->";
-const SECTION_END   = "<!--PROJECTS:END-->";
+const PROJECT_SECTION_START = "<!--PROJECTS:START-->";
+const PROJECT_SECTION_END   = "<!--PROJECTS:END-->";
+const LANG_SECTION_START = "<!--LANGUAGES:START-->";
+const LANG_SECTION_END   = "<!--LANGUAGES:END-->";
+const FRAME_SECTION_START = "<!--FRAMEWORKS:START-->";
+const FRAME_SECTION_END   = "<!--FRAMEWORKS:END-->";
 
 // Opsi: exclude repo tertentu (fork, arsip, dsb)
 const EXCLUDE = (process.env.EXCLUDE_REPOS || "")
@@ -16,6 +20,76 @@ const EXCLUDE = (process.env.EXCLUDE_REPOS || "")
 const STRATEGY = process.env.SORT_STRATEGY || "stars"; 
 // Jumlah repo yang ditampilkan
 const LIMIT = Number(process.env.LIMIT || 8);
+
+const LANGUAGE_ALIASES = {
+  js: "JavaScript",
+  javascript: "JavaScript",
+  ts: "TypeScript",
+  typescript: "TypeScript",
+  py: "Python",
+  python: "Python",
+  rb: "Ruby",
+  ruby: "Ruby",
+  csharp: "C#",
+  "c#": "C#",
+  cpp: "C++",
+  "c++": "C++",
+  go: "Go",
+  golang: "Go"
+};
+
+const FRAMEWORK_ALIASES = normalizeFrameworkAliasMap({
+  react: "React",
+  reactjs: "React",
+  nextjs: "Next.js",
+  nextjs13: "Next.js",
+  "next-js": "Next.js",
+  vue: "Vue.js",
+  "vuejs": "Vue.js",
+  nuxt: "Nuxt.js",
+  nuxtjs: "Nuxt.js",
+  svelte: "Svelte",
+  solidjs: "SolidJS",
+  astro: "Astro",
+  angular: "Angular",
+  "angularjs": "AngularJS",
+  express: "Express",
+  expressjs: "Express",
+  fastify: "Fastify",
+  nest: "NestJS",
+  nestjs: "NestJS",
+  koa: "Koa",
+  laravel: "Laravel",
+  lumen: "Lumen",
+  codeigniter: "CodeIgniter",
+  symfony: "Symfony",
+  django: "Django",
+  flask: "Flask",
+  fastapi: "FastAPI",
+  spring: "Spring",
+  springboot: "Spring Boot",
+  rails: "Ruby on Rails",
+  dotnet: ".NET",
+  aspnet: "ASP.NET",
+  bootstrap: "Bootstrap",
+  tailwind: "Tailwind CSS",
+  tailwindcss: "Tailwind CSS",
+  chakraui: "Chakra UI",
+  mantine: "Mantine",
+  materialui: "Material UI",
+  jquery: "jQuery",
+  gatsby: "Gatsby",
+  remix: "Remix",
+  electron: "Electron",
+  ionic: "Ionic",
+  flutter: "Flutter",
+  reactnative: "React Native",
+  capacitor: "Capacitor",
+  astrojs: "Astro",
+  adonis: "AdonisJS",
+  strapi: "Strapi",
+  wordpress: "WordPress"
+});
 
 function detectUsername() {
   const fromEnv =
@@ -54,21 +128,23 @@ async function fetchAllRepos() {
   return await res.json();
 }
 
-function pickRepos(repos) {
-  const cleaned = repos
+function filterRepos(repos) {
+  return repos
     .filter(r => !r.archived && !r.private)
     .filter(r => !EXCLUDE.includes(r.name.toLowerCase()));
+}
 
-  let sorted = cleaned;
+function pickRepos(cleaned) {
+  const data = [...cleaned];
   if (STRATEGY === "stars") {
-    sorted = cleaned.sort((a,b) => b.stargazers_count - a.stargazers_count);
+    data.sort((a,b) => b.stargazers_count - a.stargazers_count);
   } else if (STRATEGY === "updated") {
-    sorted = cleaned.sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at));
+    data.sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at));
   } else if (STRATEGY === "pushed") {
-    sorted = cleaned.sort((a,b) => new Date(b.pushed_at) - new Date(a.pushed_at));
+    data.sort((a,b) => new Date(b.pushed_at) - new Date(a.pushed_at));
   }
 
-  return sorted.slice(0, LIMIT);
+  return data.slice(0, LIMIT);
 }
 
 function fmtDate(iso) {
@@ -99,14 +175,14 @@ function toMarkdownTable(repos) {
   ].join("\n");
 }
 
-function injectIntoReadme(readme, newBlock) {
-  const start = readme.indexOf(SECTION_START);
-  const end   = readme.indexOf(SECTION_END);
+function injectSection(readme, startMarker, endMarker, newBlock) {
+  const start = readme.indexOf(startMarker);
+  const end   = readme.indexOf(endMarker);
 
   if (start === -1 || end === -1 || end < start) {
-    throw new Error("Marker <!--PROJECTS:START--> / <!--PROJECTS:END--> tidak ditemukan/urutannya salah.");
+    throw new Error(`Marker ${startMarker} / ${endMarker} tidak ditemukan/urutannya salah.`);
   }
-  const before = readme.slice(0, start + SECTION_START.length);
+  const before = readme.slice(0, start + startMarker.length);
   const after  = readme.slice(end);
   return `${before}\n${newBlock}\n${after}`;
 }
