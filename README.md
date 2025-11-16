@@ -6,7 +6,7 @@
 | Repository | Main Lang | Stats | Last Push |
 |---|---|---|---|
 | [news-app](https://github.com/DECode-studio/news-app) | `PHP` | ⭐ 1 • 🍴 0 | 2022-06-26 |
-| [DECode-studio](https://github.com/DECode-studio/DECode-studio) | `JavaScript` | ⭐ 0 • 🍴 0 | 2025-11-14 |
+| [DECode-studio](https://github.com/DECode-studio/DECode-studio) | `JavaScript` | ⭐ 0 • 🍴 0 | 2025-11-15 |
 | [animeSearch](https://github.com/DECode-studio/animeSearch) | `Swift` | ⭐ 0 • 🍴 0 | 2025-11-12 |
 | [anime-search-app](https://github.com/DECode-studio/anime-search-app) | `TypeScript` | ⭐ 0 • 🍴 0 | 2025-11-11 |
 | [foundry-learn](https://github.com/DECode-studio/foundry-learn) | `Solidity` | ⭐ 0 • 🍴 0 | 2025-11-09 |
@@ -14,7 +14,7 @@
 | [fullstack-app.playground](https://github.com/DECode-studio/fullstack-app.playground) | `Blade` | ⭐ 0 • 🍴 0 | 2025-11-06 |
 | [domain-app.contract](https://github.com/DECode-studio/domain-app.contract) | `Solidity` | ⭐ 0 • 🍴 0 | 2025-11-05 |
 
-_Last update: 11/15/2025, 1:36:46 AM_
+_Last update: 11/16/2025, 1:45:10 AM_
 
 <!--PROJECTS:END-->
 
