@@ -6,7 +6,7 @@
 | Repository | Main Lang | Stats | Last Push |
 |---|---|---|---|
 | [news-app](https://github.com/DECode-studio/news-app) | `PHP` | ⭐ 1 • 🍴 0 | 2022-06-26 |
-| [DECode-studio](https://github.com/DECode-studio/DECode-studio) | `JavaScript` | ⭐ 0 • 🍴 0 | 2025-11-22 |
+| [DECode-studio](https://github.com/DECode-studio/DECode-studio) | `JavaScript` | ⭐ 0 • 🍴 0 | 2025-11-23 |
 | [trusy-dust.smartcontract](https://github.com/DECode-studio/trusy-dust.smartcontract) | `Solidity` | ⭐ 0 • 🍴 0 | 2025-11-21 |
 | [abb-checker](https://github.com/DECode-studio/abb-checker) | `TypeScript` | ⭐ 0 • 🍴 0 | 2025-11-17 |
 | [animeSearch](https://github.com/DECode-studio/animeSearch) | `Swift` | ⭐ 0 • 🍴 0 | 2025-11-12 |
@@ -14,7 +14,7 @@
 | [foundry-learn](https://github.com/DECode-studio/foundry-learn) | `Solidity` | ⭐ 0 • 🍴 0 | 2025-11-09 |
 | [new-concept-web](https://github.com/DECode-studio/new-concept-web) | `TypeScript` | ⭐ 0 • 🍴 0 | 2025-11-06 |
 
-_Last update: 11/23/2025, 1:51:38 AM_
+_Last update: 11/24/2025, 1:46:36 AM_
 
 <!--PROJECTS:END-->
 
