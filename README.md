@@ -6,15 +6,15 @@
 | Repository | Main Lang | Stats | Last Push |
 |---|---|---|---|
 | [news-app](https://github.com/DECode-studio/news-app) | `PHP` | ⭐ 1 • 🍴 0 | 2022-06-26 |
-| [DECode-studio](https://github.com/DECode-studio/DECode-studio) | `JavaScript` | ⭐ 0 • 🍴 0 | 2025-12-25 |
+| [gaji-kita.backend](https://github.com/DECode-studio/gaji-kita.backend) | `-` | ⭐ 0 • 🍴 0 | 2025-12-25 |
+| [DECode-studio](https://github.com/DECode-studio/DECode-studio) | `JavaScript` | ⭐ 0 • 🍴 0 | 2025-12-26 |
 | [tormentor-dex.iota](https://github.com/DECode-studio/tormentor-dex.iota) | `TypeScript` | ⭐ 0 • 🍴 0 | 2025-12-14 |
 | [trusy-dust.smartcontract](https://github.com/DECode-studio/trusy-dust.smartcontract) | `Solidity` | ⭐ 0 • 🍴 0 | 2025-11-26 |
 | [abb-checker](https://github.com/DECode-studio/abb-checker) | `TypeScript` | ⭐ 0 • 🍴 0 | 2025-11-17 |
 | [animeSearch](https://github.com/DECode-studio/animeSearch) | `Swift` | ⭐ 0 • 🍴 0 | 2025-11-12 |
 | [anime-search-app](https://github.com/DECode-studio/anime-search-app) | `TypeScript` | ⭐ 0 • 🍴 0 | 2025-11-11 |
-| [foundry-learn](https://github.com/DECode-studio/foundry-learn) | `Solidity` | ⭐ 0 • 🍴 0 | 2025-11-09 |
 
-_Last update: 12/26/2025, 1:46:23 AM_
+_Last update: 12/27/2025, 1:44:20 AM_
 
 <!--PROJECTS:END-->
 
