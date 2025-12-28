@@ -6,15 +6,15 @@
 | Repository | Main Lang | Stats | Last Push |
 |---|---|---|---|
 | [news-app](https://github.com/DECode-studio/news-app) | `PHP` | ⭐ 1 • 🍴 0 | 2022-06-26 |
-| [gaji-kita.backend](https://github.com/DECode-studio/gaji-kita.backend) | `-` | ⭐ 0 • 🍴 0 | 2025-12-25 |
-| [DECode-studio](https://github.com/DECode-studio/DECode-studio) | `JavaScript` | ⭐ 0 • 🍴 0 | 2025-12-26 |
+| [gaji-kita.backend](https://github.com/DECode-studio/gaji-kita.backend) | `TypeScript` | ⭐ 0 • 🍴 0 | 2025-12-27 |
+| [DECode-studio](https://github.com/DECode-studio/DECode-studio) | `JavaScript` | ⭐ 0 • 🍴 0 | 2025-12-27 |
 | [tormentor-dex.iota](https://github.com/DECode-studio/tormentor-dex.iota) | `TypeScript` | ⭐ 0 • 🍴 0 | 2025-12-14 |
 | [trusy-dust.smartcontract](https://github.com/DECode-studio/trusy-dust.smartcontract) | `Solidity` | ⭐ 0 • 🍴 0 | 2025-11-26 |
 | [abb-checker](https://github.com/DECode-studio/abb-checker) | `TypeScript` | ⭐ 0 • 🍴 0 | 2025-11-17 |
 | [animeSearch](https://github.com/DECode-studio/animeSearch) | `Swift` | ⭐ 0 • 🍴 0 | 2025-11-12 |
 | [anime-search-app](https://github.com/DECode-studio/anime-search-app) | `TypeScript` | ⭐ 0 • 🍴 0 | 2025-11-11 |
 
-_Last update: 12/27/2025, 1:44:20 AM_
+_Last update: 12/28/2025, 1:57:02 AM_
 
 <!--PROJECTS:END-->
 
@@ -23,11 +23,11 @@ _Last update: 12/27/2025, 1:44:20 AM_
 ### 💻 Languages I Use
 <!--LANGUAGES:START-->
 
-> Berdasarkan 75 repositori publik bertanda bahasa
+> Berdasarkan 76 repositori publik bertanda bahasa
 
 | Rank | Bahasa | Frekuensi | Intensitas |
 |---|---|---|---|
-| #1 | TypeScript | 23 repos | `███░░░░░░░` 31% |
+| #1 | TypeScript | 24 repos | `███░░░░░░░` 32% |
 | #2 | Dart | 13 repos | `██░░░░░░░░` 17% |
 | #3 | JavaScript | 10 repos | `█░░░░░░░░░` 13% |
 | #4 | Solidity | 6 repos | `█░░░░░░░░░` 8% |
