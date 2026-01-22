@@ -6,7 +6,7 @@
 | Repository | Main Lang | Stats | Last Push |
 |---|---|---|---|
 | [news-app](https://github.com/DECode-studio/news-app) | `PHP` | ⭐ 1 • 🍴 0 | 2022-06-26 |
-| [DECode-studio](https://github.com/DECode-studio/DECode-studio) | `JavaScript` | ⭐ 0 • 🍴 0 | 2026-01-20 |
+| [DECode-studio](https://github.com/DECode-studio/DECode-studio) | `JavaScript` | ⭐ 0 • 🍴 0 | 2026-01-21 |
 | [scaffold-dot](https://github.com/DECode-studio/scaffold-dot) | `-` | ⭐ 0 • 🍴 0 | 2025-12-16 |
 | [gaji-kita.backend](https://github.com/DECode-studio/gaji-kita.backend) | `TypeScript` | ⭐ 0 • 🍴 0 | 2025-12-27 |
 | [tormentor-dex.iota](https://github.com/DECode-studio/tormentor-dex.iota) | `TypeScript` | ⭐ 0 • 🍴 0 | 2025-12-14 |
@@ -14,7 +14,7 @@
 | [abb-checker](https://github.com/DECode-studio/abb-checker) | `TypeScript` | ⭐ 0 • 🍴 0 | 2025-11-17 |
 | [animeSearch](https://github.com/DECode-studio/animeSearch) | `Swift` | ⭐ 0 • 🍴 0 | 2025-11-12 |
 
-_Last update: 1/21/2026, 1:53:06 AM_
+_Last update: 1/22/2026, 1:53:40 AM_
 
 <!--PROJECTS:END-->
 
